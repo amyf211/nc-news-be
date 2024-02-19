@@ -6,4 +6,10 @@ function getTopics(request, response, next){
     }).catch(next)
 };
 
+function getEndpoints(request, response, next){
+    selectEndpoints().then((endpoints) => {
+        response.status(200).send(endpoints)
+    }).catch(next)
+}
+
 module.exports = getTopics
