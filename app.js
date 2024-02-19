@@ -4,6 +4,8 @@ const getTopics = require('./controller.js')
 
 app.get('/api/topics', getTopics)
 
+app.get('/api', getEndpoints)
+
 app.use((error, request, response, next) => {
     response.status(500).send('server error')
 })

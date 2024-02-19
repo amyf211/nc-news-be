@@ -6,4 +6,10 @@ function selectTopics(){
     })
 };
 
+function selectEndpoints(){
+    return db.query(`???`).then((result) => {
+        return result.rows
+    })
+};
+
 module.exports = selectTopics
