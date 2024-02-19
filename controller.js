@@ -1,4 +1,5 @@
-const selectTopics = require('./model.js')
+const {selectTopics} = require('./model.js')
+const endpoints = require('./endpoints.json')
 
 function getTopics(request, response, next){
     selectTopics().then((topics) => {
@@ -7,9 +8,8 @@ function getTopics(request, response, next){
 };
 
 function getEndpoints(request, response, next){
-    selectEndpoints().then((endpoints) => {
-        response.status(200).send(endpoints)
-    }).catch(next)
-}
+    response.status(200).send({endpoints})
+    .catch(next)
+};
 
-module.exports = getTopics
+module.exports = {getTopics, getEndpoints}
