@@ -1,5 +1,4 @@
 const db = require('./db/connection')
-const endpointsFile = require('./endpoints.json')
 const fs = require('fs/promises')
 
 function selectTopics(){
@@ -8,13 +7,4 @@ function selectTopics(){
     })
 };
 
-function selectEndpoints(){
-    fs.readFile('./endpoints.json', "utf-8").then((contents)=> {
-        const body = JSON.parse(contents)
-        const endpoints = JSON.stringify(body)
-        console.log({endpoints})
-        return {endpoints}
-    })
-};
-
-module.exports = {selectTopics, selectEndpoints}
+module.exports = {selectTopics}
