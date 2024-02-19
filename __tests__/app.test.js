@@ -26,7 +26,15 @@ beforeEach(()=>{
             })
         })
     });
-
-
   });
   
+  describe('GET api', () => {
+    test('should return a status code of 200 and describe all other possible endpoints', () => {
+        return request(app)
+        .get('/api')
+        .expect(200).then((endpoints) => {
+            const expectedOutput = JSON.parse(fs.readFile('../endpoints.json'))
+            expect(endpoints).toEqual(expectedOutput)
+        })
+    });
+  });
