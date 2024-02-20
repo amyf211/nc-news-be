@@ -54,26 +54,38 @@ beforeEach(()=>{
     });
 
     describe('GET /api/articles/:article_id', () => {
-        test('should return a status code of 200', () => {
-            return request(app)
-            .get('/api')
-            .expect(200)
-            })
-            test('should return an object', () => {
+            test('should return 200 and the object that corresponds to that article id', () => {
                 return request(app)
-                .get('/api')
-                .expect(200).then((response) => {
-                    expect(typeof response).toBe('object')
+                .get('/api/articles/1')
+                .expect(200).then((article) => {
+                    expect(typeof article.body).toBe('object')
+                    expect(article.body).toMatchObject({
+                        article_id: 1,
+                        title: 'Living in the shadow of a great man',
+                        topic: 'mitch',
+                        author: 'butter_bridge',
+                        body: 'I find this existence challenging',
+                        created_at: '2020-07-09T20:11:00.000Z',
+                        votes: 100,
+                        article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+                    });
                 })
-                });
-            test('should return the contents of endpoints.json', () => {
-                return request(app)
-                .get('/api')
-                .expect(200)
-                .then((response) => {
-                    const actualOutput = response.body.endpoints
-                    expect(actualOutput).toEqual(endpoints)
-                });
             });
+        test('should respond with a status code of 400 and a message when given an invalid id', () => {
+            return request(app)
+            .get('/api/articles/forklift')
+            .expect(400)
+            .then((response) => {
+                expect(response.body.msg).toEqual('Bad Request')
+            })
         });
+        test('should respond with a status code of 404 and a message when given an valid id that is non-existent', () => {
+            return request(app)
+            .get('/api/articles/1000')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toEqual('Not Found')  
+            })
+        });
+    });
 
