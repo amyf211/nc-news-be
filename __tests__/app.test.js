@@ -13,7 +13,7 @@ beforeEach(()=>{
       db.end()
   })
   
-  describe('GET topics', () => {
+  describe('GET /topics', () => {
     test('should return a status code of 200 and returns an array of topic objects with a slug and description', () => {
         return request(app)
         .get('/api/topics')
@@ -29,7 +29,7 @@ beforeEach(()=>{
     });
   });
   
-  describe('GET api', () => {
+  describe('GET /api', () => {
     test('should return a status code of 200', () => {
         return request(app)
         .get('/api')
@@ -52,4 +52,28 @@ beforeEach(()=>{
             });
         });
     });
+
+    describe('GET /api/articles/:article_id', () => {
+        test('should return a status code of 200', () => {
+            return request(app)
+            .get('/api')
+            .expect(200)
+            })
+            test('should return an object', () => {
+                return request(app)
+                .get('/api')
+                .expect(200).then((response) => {
+                    expect(typeof response).toBe('object')
+                })
+                });
+            test('should return the contents of endpoints.json', () => {
+                return request(app)
+                .get('/api')
+                .expect(200)
+                .then((response) => {
+                    const actualOutput = response.body.endpoints
+                    expect(actualOutput).toEqual(endpoints)
+                });
+            });
+        });
 
