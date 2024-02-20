@@ -6,7 +6,6 @@ function selectArticleById(articleId){
         if (result.rows.length === 0){
             return Promise.reject({status: 404, msg: 'Not Found'})
         }
-        console.log(result)
         return result.rows
     });
 }
