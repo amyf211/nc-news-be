@@ -1,5 +1,5 @@
-const {selectTopics} = require('./model.js')
-const endpoints = require('./endpoints.json')
+const {selectTopics} = require('../models/topics-model.js')
+const endpoints = require('../endpoints.json')
 
 function getTopics(request, response, next){
     selectTopics().then((topics) => {

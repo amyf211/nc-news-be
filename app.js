@@ -1,13 +1,9 @@
 const express = require('express')
 const app = express()
-const {getTopics, getEndpoints} = require('./controller.js')
+const {getTopics, getEndpoints} = require('./controllers/topics-controller.js')
 
 app.get('/api/topics', getTopics)
 
 app.get('/api', getEndpoints)
-
-app.use((error, request, response, next) => {
-    response.status(500).send('server error')
-})
 
 module.exports = app
