@@ -9,7 +9,6 @@ function getTopics(request, response, next){
 
 function getEndpoints(request, response, next){
     response.status(200).send({endpoints})
-    .catch(next)
 };
 
 module.exports = {getTopics, getEndpoints}
