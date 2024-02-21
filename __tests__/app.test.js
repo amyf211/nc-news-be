@@ -13,7 +13,7 @@ beforeEach(()=>{
       db.end()
   })
   
-  describe('GET /topics', () => {
+  describe('GET /api/topics', () => {
     test('should return a status code of 200 and returns an array of topic objects with a slug and description', () => {
         return request(app)
         .get('/api/topics')
@@ -88,4 +88,33 @@ beforeEach(()=>{
             })
         });
     });
+
+    describe('GET /api/articles', () => {
+        test('should return a status code of 200 and returns an array of objects with the article properties', () => {
+            return request(app)
+            .get('/api/articles')
+            .expect(200).then((articles) => {
+                expect(Array.isArray(articles.body)).toBe(true)
+                articles.body.forEach((article) => {
+                    expect(article).toMatchObject({
+                        author: expect.any(String),
+                        title: expect.any(String),
+                        article_id: expect.any(Number),
+                        topic: expect.any(String),
+                        created_at: expect.any(String),
+                        votes: expect.any(Number),
+                        article_img_url: expect.any(String),
+                        comment_count: expect.any(Number)
+                    });
+                })
+            })
+        });
+        // test('should be sorted by date created in descending order', () => {
+        //     return request(app)
+        //     .get('/api/articles')
+        //     .expect(200).then((response) => {
+                
+        //     })
+        // });
+      });
 
