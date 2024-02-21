@@ -15,7 +15,8 @@ const handleDatabaseErrors = (err, request, response, next) => {
 }
 
 const handleOtherErrors = (err, request, response, next) => {
-    response.status(500).send({msg: 'Internal server Error'})
+    console.log(err)
+    response.status(500).send({msg: 'Internal Server Error'})
 }
 
 module.exports = {handleCustomErrors, handleOtherErrors, handleDatabaseErrors}

@@ -118,3 +118,41 @@ beforeEach(()=>{
         // });
       });
 
+    describe('GET /api/articles/:article_id/comments', () => {
+        test('should return an array of comments with the correct properties and given article ID', () => {
+            return request(app)
+            .get('/api/articles/1/comments')
+            .expect(200).then((comments) => {
+                expect(Array.isArray(comments.body)).toBe(true)
+                comments.body.forEach((comment) => {
+                    expect(comment).toMatchObject({
+                        comment_id: expect.any(Number),
+                        votes: expect.any(Number),
+                        created_at: expect.any(String),
+                        author: expect.any(String),
+                        body: expect.any(String),
+                        article_id: 1
+                    });
+                })
+            })
+        });
+        test('should respond with a status code of 400 and a message when given an invalid id', () => {
+            return request(app)
+            .get('/api/articles/forklift/comments')
+            .expect(400)
+            .then((response) => {
+                expect(response.body.msg).toEqual('Bad Request')
+            })
+        });
+        test('should respond with a status code of 404 and a message when given an valid id that is non-existent', () => {
+            return request(app)
+            .get('/api/articles/1000/comments')
+            .expect(404)
+            .then((response) => {
+                expect(response.body.msg).toEqual('Not Found')  
+            })
+        });
+    });
+
+      
+
