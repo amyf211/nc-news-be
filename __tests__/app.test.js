@@ -171,5 +171,20 @@ beforeEach(()=>{
         });
       });
 
-      
+   describe('POST /api/articles/:article_id/comments', () => {
+    test('should respond with 201 and the posted comment', () => {
+        return request(app)
+        .post('/api/articles/1/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'great article!'
+        })
+        .expect(201)
+        .then((response) => {
+            const newComment = response.body.newComment
+            expect(newComment.author).toBe('butter_bridge')
+            expect(newComment.body).toBe('great article!')
+        })
+    })
+   });   
 
