@@ -210,6 +210,17 @@ describe('POST /api/articles/:article_id/comments', () => {
             expect(response.body.msg).toEqual('Not Found')  
         })
     });
+    // test('should respond with a status code of 400 and a message when given object is missing a key', () => {
+    //     return request(app)
+    //     .post('/api/articles/1/comments')
+    //     .send({
+    //         body: 'great article!'
+    //     })
+    //     .expect(400)
+    //     .then((response) => {
+    //         expect(response.body.msg).toEqual('Bad Request')
+    //     })
+    // });
     // POSSIBLE OTHER TESTS (come back to these)
     //400 - missing keys in comment object
     //400 - invalid data type for keys of comment object
