@@ -8,12 +8,12 @@ const endpoints = require('../endpoints.json')
 beforeEach(()=>{
     return seed(data)
   })
-  afterAll(()=>
+afterAll(()=>
   {
       db.end()
   })
   
-  describe('GET /api/topics', () => {
+describe('GET /api/topics', () => {
     test('should return a status code of 200 and returns an array of topic objects with a slug and description', () => {
         return request(app)
         .get('/api/topics')
@@ -29,7 +29,7 @@ beforeEach(()=>{
     });
   });
   
-  describe('GET /api', () => {
+describe('GET /api', () => {
     test('should return a status code of 200', () => {
         return request(app)
         .get('/api')
@@ -51,9 +51,9 @@ beforeEach(()=>{
                 expect(actualOutput).toEqual(endpoints)
             });
         });
-    });
+  });
 
-    describe('GET /api/articles/:article_id', () => {
+describe('GET /api/articles/:article_id', () => {
             test('should return 200 and the object that corresponds to that article id', () => {
                 return request(app)
                 .get('/api/articles/1')
@@ -87,9 +87,9 @@ beforeEach(()=>{
                 expect(response.body.msg).toEqual('Not Found')  
             })
         });
-    });
+ });
 
-    describe('GET /api/articles', () => {
+describe('GET /api/articles', () => {
         test('should return a status code of 200 and returns an array of objects with the article properties', () => {
             return request(app)
             .get('/api/articles')
@@ -116,9 +116,9 @@ beforeEach(()=>{
                 
         //     })
         // });
-      });
+ });
 
-    describe('GET /api/articles/:article_id/comments', () => {
+describe('GET /api/articles/:article_id/comments', () => {
         test('should return an array of comments with the correct properties and given article ID', () => {
             return request(app)
             .get('/api/articles/1/comments')
@@ -152,9 +152,9 @@ beforeEach(()=>{
                 expect(response.body.msg).toEqual('Not Found')  
             })
         });
-    });
+ });
 
-    describe('GET /api/users', () => {
+describe('GET /api/users', () => {
         test('should return 200 and an array of user objects with the correct properties', () => {
             return request(app)
             .get('/api/users')
@@ -169,9 +169,9 @@ beforeEach(()=>{
                 })
             })
         });
-      });
+ });
 
-   describe('POST /api/articles/:article_id/comments', () => {
+describe('POST /api/articles/:article_id/comments', () => {
     test('should respond with 201 and the posted comment', () => {
         return request(app)
         .post('/api/articles/1/comments')
@@ -214,5 +214,5 @@ beforeEach(()=>{
     //400 - missing keys in comment object
     //400 - invalid data type for keys of comment object
     //404 - user doesn't exist
-   });
+ });
 
