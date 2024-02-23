@@ -6,6 +6,14 @@ const handleCustomErrors = (err, request, response, next) => {
     }
 }
 
+const handleNonExistentId = (err, request, response, next) => {
+    if(err.code === '23503'){
+        response.status(404).send({msg: 'Not Found'})
+    } else {
+        next(err)
+    }
+}
+
 const handleDatabaseErrors = (err, request, response, next) => {
     if(err.code === '22P02'){
         response.status(400).send({msg: 'Bad Request'})
@@ -19,4 +27,4 @@ const handleOtherErrors = (err, request, response, next) => {
     response.status(500).send({msg: 'Internal Server Error'})
 }
 
-module.exports = {handleCustomErrors, handleOtherErrors, handleDatabaseErrors}
+module.exports = {handleCustomErrors, handleNonExistentId, handleOtherErrors, handleDatabaseErrors}

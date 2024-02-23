@@ -171,5 +171,48 @@ beforeEach(()=>{
         });
       });
 
-      
+   describe('POST /api/articles/:article_id/comments', () => {
+    test('should respond with 201 and the posted comment', () => {
+        return request(app)
+        .post('/api/articles/1/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'great article!'
+        })
+        .expect(201)
+        .then((response) => {
+            const newComment = response.body.newComment
+            expect(newComment.author).toBe('butter_bridge')
+            expect(newComment.body).toBe('great article!')
+        })
+    });
+    test('should respond with a status code of 400 and a message when given an invalid id', () => {
+        return request(app)
+        .post('/api/articles/forklift/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'great article!'
+        })
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toEqual('Bad Request')
+        })
+    });
+    test('should respond with a status code of 404 and a message when given an valid id that is non-existent', () => {
+        return request(app)
+        .post('/api/articles/1000/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'great article!'
+        })
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toEqual('Not Found')  
+        })
+    });
+    // POSSIBLE OTHER TESTS (come back to these)
+    //400 - missing keys in comment object
+    //400 - invalid data type for keys of comment object
+    //404 - user doesn't exist
+   });
 
