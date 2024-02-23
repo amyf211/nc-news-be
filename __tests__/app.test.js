@@ -188,7 +188,11 @@ beforeEach(()=>{
     });
     test('should respond with a status code of 400 and a message when given an invalid id', () => {
         return request(app)
-        .get('/api/articles/forklift/comments')
+        .post('/api/articles/forklift/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'great article!'
+        })
         .expect(400)
         .then((response) => {
             expect(response.body.msg).toEqual('Bad Request')
@@ -196,7 +200,11 @@ beforeEach(()=>{
     });
     test('should respond with a status code of 404 and a message when given an valid id that is non-existent', () => {
         return request(app)
-        .get('/api/articles/1000/comments')
+        .post('/api/articles/1000/comments')
+        .send({
+            username: 'butter_bridge',
+            body: 'great article!'
+        })
         .expect(404)
         .then((response) => {
             expect(response.body.msg).toEqual('Not Found')  

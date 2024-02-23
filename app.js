@@ -4,7 +4,7 @@ const {getTopics, getEndpoints} = require('./controllers/topics-controller.js')
 const {getArticleById, getArticles} = require('./controllers/articles-controller.js')
 const {getCommentsByArticleId, postComment} = require('./controllers/comments-controller.js')
 const {getUsers} = require('./controllers/users-controller.js')
-const { handleCustomErrors, handleOtherErrors, handleDatabaseErrors } = require('./controllers/errors-controller.js')
+const { handleCustomErrors, handleNonExistentId, handleOtherErrors, handleDatabaseErrors } = require('./controllers/errors-controller.js')
 
 app.use(express.json())
 
@@ -23,6 +23,8 @@ app.get('/api/users', getUsers)
 app.post('/api/articles/:article_id/comments', postComment)
 
 app.use(handleCustomErrors)
+
+app.use(handleNonExistentId)
 
 app.use(handleDatabaseErrors)
 

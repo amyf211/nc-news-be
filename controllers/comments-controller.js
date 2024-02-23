@@ -11,6 +11,8 @@ function postComment(request, response, next){
     const articleId = request.params.article_id
     addComment(articleId, request.body).then((newComment) => {
         response.status(201).send({newComment})
+    }).catch((err) => {
+        next(err)
     })
 }
 
