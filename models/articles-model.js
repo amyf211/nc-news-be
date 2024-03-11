@@ -24,4 +24,21 @@ function selectArticles(){
     }
 )};
 
-module.exports = {selectArticleById, selectArticles}
+function editVotes(articleId, newVotes) {
+    console.log(articleId)
+    console.log(newVotes)
+    return db.query(`UPDATE articles
+                     SET votes = votes + $1
+                     WHERE article_id = $2
+                     RETURNING *`, [newVotes, articleId])
+        .then((response) => {
+            if(response.rows.length === 0){
+                return Promise.reject({status: 404, msg: "Not Found"})
+            }
+            console.log(response)
+            return response.rows[0]
+        })
+    }
+
+
+module.exports = {selectArticleById, selectArticles, editVotes}

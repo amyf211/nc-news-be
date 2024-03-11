@@ -1,4 +1,4 @@
-const {selectArticleById, selectArticles} = require('../models/articles-model.js')
+const {selectArticleById, selectArticles, editVotes} = require('../models/articles-model.js')
 
 function getArticleById(request, response, next){
     const articleId = request.params.article_id
@@ -13,4 +13,12 @@ function getArticles(request, response, next){
     }).catch(next)
 }
 
-module.exports = {getArticleById, getArticles}
+function updateVotes(request, response, next){
+    const articleId = request.params.article_id
+    editVotes(articleId, request.body.inc_votes).then((newVotes) => {
+        console.log(newVotes, "<< new votes")
+        response.status(200).send({votes: newVotes.votes})
+    }).catch(next)
+}
+
+module.exports = {getArticleById, getArticles, updateVotes}

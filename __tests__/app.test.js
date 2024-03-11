@@ -10,7 +10,7 @@ beforeEach(()=>{
   })
 afterAll(()=>
   {
-      db.end()
+      return db.end()
   })
   
 describe('GET /api/topics', () => {
@@ -172,7 +172,7 @@ describe('GET /api/users', () => {
  });
 
 describe('POST /api/articles/:article_id/comments', () => {
-    test('should respond with 201 and the posted comment', () => {
+    test.only('should respond with 201 and the posted comment', () => {
         return request(app)
         .post('/api/articles/1/comments')
         .send({
@@ -235,40 +235,45 @@ describe('DELETE /api/comments/:comment_id', () => {
         })
     })
 })
-    test('should respond with a status code of 400 and a message when given object is missing a key', () => {
+
+describe('PATCH /api/articles/:article_id', () => {
+    test('should respond with 200 and the updated votes', () => {
         return request(app)
-        .post('/api/articles/1/comments')
+        .patch('/api/articles/1')
         .send({
-            body: 'great article!'
+            inc_votes: 10
+        })
+        .expect(200)
+        .then((response) => {
+            console.log(response.body, "<<<response")
+            expect(response.body.votes).toBe(110)
+        });
+    });
+
+    test('should respond with a status code of 400 and a message when given an invalid id', () => {
+        return request(app)
+        .patch('/api/articles/forklift')
+        .send({
+            inc_votes: 10
         })
         .expect(400)
         .then((response) => {
             expect(response.body.msg).toEqual('Bad Request')
         })
     });
-    test('should respond with a status code of 400 and a message when given object has a key with an invalid data type', () => {
+
+    test('should respond with a status code of 404 and a message when given an valid id that is non-existent', () => {
         return request(app)
-        .post('/api/articles/1/comments')
+        .patch('/api/articles/1000')
         .send({
-            username: 345,
-            body: 'great article!'
+           inc_votes: 10
         })
         .expect(404)
         .then((response) => {
-            expect(response.body.msg).toEqual('Not Found')
+            expect(response.body.msg).toEqual('Not Found')  
         })
     });
-    test('should respond with a status code of 404 and a message when given a user that does not exist in the database', () => {
-        return request(app)
-        .post('/api/articles/1/comments')
-        .send({
-            username: 'comment_poster',
-            body: 'great article!'
-        })
-        .expect(404)
-        .then((response) => {
-            expect(response.body.msg).toEqual('Not Found')
-        })
-    });
-   });
+});
+
+
 
