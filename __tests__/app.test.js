@@ -270,5 +270,4 @@ describe('DELETE /api/comments/:comment_id', () => {
             expect(response.body.msg).toEqual('Not Found')
         })
     });
-   });
 
