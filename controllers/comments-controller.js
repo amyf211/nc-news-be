@@ -1,4 +1,4 @@
-const {selectCommentsbyArticleId, addComment} = require('../models/comments-model.js')
+const {selectCommentsbyArticleId, addComment, getCommentbyId ,removeComment} = require('../models/comments-model.js')
 
 function getCommentsByArticleId(request, response, next){
     const articleId = request.params.article_id
@@ -16,4 +16,13 @@ function postComment(request, response, next){
     })
 }
 
-module.exports = {getCommentsByArticleId, postComment}
+function deleteComment(request, response, next){
+    const commentId = request.params.comment_id
+    removeComment(commentId).then(() => {
+        return response.status(204).send()
+    }).catch((err) => {
+        next(err)
+    })
+}
+
+module.exports = {getCommentsByArticleId, postComment, deleteComment}

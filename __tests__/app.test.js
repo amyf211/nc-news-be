@@ -210,20 +210,28 @@ describe('POST /api/articles/:article_id/comments', () => {
             expect(response.body.msg).toEqual('Not Found')  
         })
     });
-    // test('should respond with a status code of 400 and a message when given object is missing a key', () => {
-    //     return request(app)
-    //     .post('/api/articles/1/comments')
-    //     .send({
-    //         body: 'great article!'
-    //     })
-    //     .expect(400)
-    //     .then((response) => {
-    //         expect(response.body.msg).toEqual('Bad Request')
-    //     })
-    // });
-    // POSSIBLE OTHER TESTS (come back to these)
-    //400 - missing keys in comment object
-    //400 - invalid data type for keys of comment object
-    //404 - user doesn't exist
  });
 
+describe('DELETE /api/comments/:comment_id', () => {
+    test('should respond with 204 and no content', () => {
+        return request(app)
+        .delete('/api/comments/1')
+        .expect(204)
+    })
+    test('should respond 404 and a message when given a valid but non-existent id', () => {
+        return request(app)
+        .delete('/api/comments/999')
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found')
+        })
+    })
+    test('should return 400 and a message when given an invalid id', () => {
+        return request(app)
+        .delete('/api/comments/hello')
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toBe('Bad Request')
+        })
+    })
+})
