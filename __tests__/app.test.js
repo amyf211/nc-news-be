@@ -235,3 +235,40 @@ describe('DELETE /api/comments/:comment_id', () => {
         })
     })
 })
+    test('should respond with a status code of 400 and a message when given object is missing a key', () => {
+        return request(app)
+        .post('/api/articles/1/comments')
+        .send({
+            body: 'great article!'
+        })
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toEqual('Bad Request')
+        })
+    });
+    test('should respond with a status code of 400 and a message when given object has a key with an invalid data type', () => {
+        return request(app)
+        .post('/api/articles/1/comments')
+        .send({
+            username: 345,
+            body: 'great article!'
+        })
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toEqual('Not Found')
+        })
+    });
+    test('should respond with a status code of 404 and a message when given a user that does not exist in the database', () => {
+        return request(app)
+        .post('/api/articles/1/comments')
+        .send({
+            username: 'comment_poster',
+            body: 'great article!'
+        })
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toEqual('Not Found')
+        })
+    });
+   });
+
