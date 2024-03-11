@@ -172,7 +172,7 @@ describe('GET /api/users', () => {
  });
 
 describe('POST /api/articles/:article_id/comments', () => {
-    test.only('should respond with 201 and the posted comment', () => {
+    test('should respond with 201 and the posted comment', () => {
         return request(app)
         .post('/api/articles/1/comments')
         .send({
